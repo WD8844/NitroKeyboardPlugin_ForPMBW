@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宝可梦 黑/白 中文键盘插件 · 打补丁教程</title>
+<style>
+  :root { --ink:#1c2333; --muted:#5b6478; --line:#e3e7ef; --brand:#1a6fb5; --brand-soft:#eef5fb; --ok:#1e7f4f; --ok-soft:#eaf7f0; --warn:#a3541c; --warn-soft:#fdf3e7; --code:#f4f6fa; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:0; color:var(--ink); background:#fff;
+         font:16px/1.75 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; }
+  .wrap { max-width:860px; margin:0 auto; padding:40px 24px 80px; }
+  h1 { font-size:1.9em; line-height:1.3; margin:0 0 6px; }
+  .sub { color:var(--muted); margin:0 0 28px; font-size:.95em; }
+  h2 { font-size:1.3em; margin:2.2em 0 .7em; padding-bottom:.3em; border-bottom:2px solid var(--line); }
+  h2 .step { display:inline-block; background:var(--brand); color:#fff; border-radius:6px;
+             font-size:.72em; padding:1px 9px; vertical-align:2px; margin-right:8px; }
+  table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.95em; }
+  th,td { border:1px solid var(--line); padding:9px 12px; text-align:left; }
+  th { background:var(--brand-soft); }
+  code { background:var(--code); border:1px solid var(--line); border-radius:4px;
+         padding:1px 6px; font-size:.9em; font-family:Consolas,Menlo,monospace; }
+  pre { background:var(--code); border:1px solid var(--line); border-radius:8px;
+        padding:14px 16px; overflow-x:auto; margin:12px 0; }
+  pre code { background:none; border:none; padding:0; }
+  .cmd { color:var(--brand); font-weight:600; }
+  .md5 { color:var(--brand); }
+  .tip { border-left:4px solid var(--brand); background:var(--brand-soft);
+         border-radius:0 8px 8px 0; padding:10px 16px; margin:14px 0; }
+  .ok  { border-left:4px solid var(--ok); background:var(--ok-soft);
+         border-radius:0 8px 8px 0; padding:10px 16px; margin:14px 0; }
+  .warn{ border-left:4px solid var(--warn); background:var(--warn-soft);
+         border-radius:0 8px 8px 0; padding:10px 16px; margin:14px 0; }
+  details { border:1px solid var(--line); border-radius:8px; padding:10px 16px; margin:14px 0; }
+  summary { cursor:pointer; color:var(--brand); font-weight:600; }
+  ol li, ul li { margin:6px 0; }
+  .foot { color:var(--muted); font-size:.9em; margin-top:40px; padding-top:16px;
+          border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>宝可梦 黑/白 中文键盘插件 · 打补丁教程</h1>
+<p class="sub">NitroKeyboardPlugin v7.9.31-E —— 黑/白双版通用教程。把未补丁的原版 ROM 打上补丁，即可获得带中文键盘插件（拼音输入候选、十字键导航、触摸同步光标）的成品 ROM。</p>
+
+<h2><span class="step">一</span>准备材料</h2>
+<table>
+  <tr><th>项目</th><th>说明</th></tr>
+  <tr><td>未补丁的原版 ROM（.nds）</td><td>黑版 / 白版各需对应版本，见第二节 MD5 校验</td></tr>
+  <tr><td>补丁文件</td><td><code>NitroKeyboardPlugin_v7.9.31E_BLACK.xdelta</code>（黑）<br><code>NitroKeyboardPlugin_v7.9.31E_WHITE.xdelta</code>（白）</td></tr>
+  <tr><td>Windows 拖动版（可选）</td><td><code>NitroKeyboardPlugin_BLACK_拖我打补丁.exe</code> / <code>NitroKeyboardPlugin_WHITE_拖我打补丁.exe</code></td></tr>
+</table>
+<div class="tip"><b>黑 / 白补丁互不通用</b>，请确认手上的 ROM 和补丁是同一版本。</div>
+
+<h2><span class="step">二</span>核对基础 ROM（重要！）</h2>
+<p>补丁只对应<b>特定的未补丁原版</b>。打补丁前请先核对 ROM 的 MD5：</p>
+<table>
+  <tr><th>版本</th><th>基础 ROM MD5（必须一致）</th></tr>
+  <tr><td>宝可梦 黑</td><td><code class="md5">43165862677bd3546d840b8cf1193962</code></td></tr>
+  <tr><td>宝可梦 白</td><td><code class="md5">0498307d30083815484eb63c439de6a0</code></td></tr>
+</table>
+<p><b>查看 MD5 的命令：</b></p>
+<pre><code>Windows（命令提示符 / PowerShell）：
+<span class="cmd">certutil -hashfile "ROM文件名.nds" MD5</span>
+
+Linux：
+<span class="cmd">md5sum "ROM文件名.nds"</span>
+
+macOS：
+<span class="cmd">md5 -q "ROM文件名.nds"</span></code></pre>
+<div class="warn">⚠️ 如果 MD5 不一致，说明 ROM 版本不对（可能是已补丁版、别的汉化版或别的 dump），强行打补丁会失败或产出坏 ROM。</div>
+
+<h2><span class="step">三</span>Windows：拖动打补丁（推荐，零依赖）</h2>
+<ol>
+  <li>下载对应版本的 <code>拖我打补丁.exe</code>（黑版拖黑、白版拖白）。</li>
+  <li><b>把未补丁的 .nds ROM 直接拖到 exe 图标上</b>，松手。</li>
+  <li>程序自动完成三步：
+    <ul>
+      <li>校验输入 ROM（版本不对会明确报错并提示需要的 MD5）；</li>
+      <li>打补丁（补丁已内嵌在 exe 里，<b>无需安装 xdelta3 或任何其他工具</b>）；</li>
+      <li>校验输出 ROM 的 MD5，通过才提示"打补丁成功"。</li>
+    </ul>
+  </li>
+  <li>输出文件自动命名为 <code>&lt;原文件名&gt;+NKP.nds</code>，与原 ROM 在同一目录。</li>
+</ol>
+<div class="ok">任何失败都会自动删除半成品文件，不会留下坏 ROM。</div>
+
+<details>
+<summary>（可选）Windows 命令行方式</summary>
+<p>如果你习惯命令行且已有 <code>xdelta3.exe</code>：</p>
+<pre><code><span class="cmd">xdelta3 -d -s "原版ROM.nds" "NitroKeyboardPlugin_v7.9.31E_BLACK.xdelta" "输出.nds"</span></code></pre>
+</details>
+
+<h2><span class="step">四</span>Linux：命令行打补丁</h2>
+<p><b>1. 安装 xdelta3</b></p>
+<pre><code><span class="cmd"># Debian / Ubuntu</span>
+sudo apt install xdelta3
+
+<span class="cmd"># Fedora</span>
+sudo dnf install xdelta3
+
+<span class="cmd"># Arch Linux</span>
+sudo pacman -S xdelta3</code></pre>
+<p><b>2. 打补丁</b></p>
+<pre><code><span class="cmd"># 黑版</span>
+xdelta3 -d -s "精灵宝可梦 黑_ver.2.1.8.nds" \
+        "NitroKeyboardPlugin_v7.9.31E_BLACK.xdelta" \
+        "精灵宝可梦 黑_ver.2.1.8+NKP.nds"
+
+<span class="cmd"># 白版</span>
+xdelta3 -d -s "精灵宝可梦 白_ver.2.1.8.nds" \
+        "NitroKeyboardPlugin_v7.9.31E_WHITE.xdelta" \
+        "精灵宝可梦 白_ver.2.1.8+NKP.nds"</code></pre>
+<div class="tip">成功时命令安静结束，不输出内容；报错说明基础 ROM 版本不对（见第七节）。</div>
+
+<h2><span class="step">五</span>macOS：命令行打补丁</h2>
+<p><b>1. 安装 xdelta3（需 Homebrew）</b></p>
+<pre><code><span class="cmd">brew install xdelta3</span></code></pre>
+<p><b>2. 打补丁（命令与 Linux 相同）</b></p>
+<pre><code><span class="cmd"># 黑版</span>
+xdelta3 -d -s "精灵宝可梦 黑_ver.2.1.8.nds" \
+        "NitroKeyboardPlugin_v7.9.31E_BLACK.xdelta" \
+        "精灵宝可梦 黑_ver.2.1.8+NKP.nds"
+
+<span class="cmd"># 白版</span>
+xdelta3 -d -s "精灵宝可梦 白_ver.2.1.8.nds" \
+        "NitroKeyboardPlugin_v7.9.31E_WHITE.xdelta" \
+        "精灵宝可梦 白_ver.2.1.8+NKP.nds"</code></pre>
+
+<h2><span class="step">六</span>验证输出（打完必做）</h2>
+<p>打补丁完成后的 ROM，MD5 应当<b>完全等于</b>以下值：</p>
+<table>
+  <tr><th>版本</th><th>成品 ROM MD5</th></tr>
+  <tr><td>黑版成品</td><td><code class="md5">d9a99c9cc7baadddadd079996f0c761e</code></td></tr>
+  <tr><td>白版成品</td><td><code class="md5">784ebb2cccd64ad981efc73d7f1db454</code></td></tr>
+</table>
+<div class="ok">核对命令同第二节。MD5 一致 = 与我们发布时上机测试通过的 ROM 逐字节一致，可直接使用。</div>
+
+<h2><span class="step">七</span>常见问题</h2>
+<p><b>Q：xdelta3 报错（如 <code>source file too small</code> / <code>target window checksum mismatch</code> / <code>invalid input</code>）？</b><br>
+A：基础 ROM 版本不对。请回到第二节核对 MD5——最常见的情形是用了已补丁版 ROM，或黑/白搞反了。</p>
+
+<p><b>Q：Windows 拖动 exe 提示"输入 ROM 与本补丁的基础版本不符"？</b><br>
+A：同上，黑白拖反或 ROM 版本不对。按提示里的 MD5 核对。</p>
+
+<p><b>Q：3DS（TWLM++）用户注意</b><br>
+A：更换/重打 ROM 后第一次启动前，请删除 SD 卡上的：<br>
+<code>_nds/nds-bootstrap/patchOffsetCache</code>（文件名含 ROM 名的 .bin）<br>
+否则旧的 offset 缓存会导致启动异常——这不是补丁的问题。</p>
+
+<p><b>Q：模拟器 / 真机支持？</b><br>
+A：输出 ROM 可直接用于 3DS（TWLM++ / nds-bootstrap）、DS 真机（DSi / 烧录卡）以及 DeSmuME、melonDS、no$gba 等模拟器。</p>
+
+<p><b>Q：汉化 ROM 更新了文本（错别字修正、字库修订）之后，我之前下载的补丁还能用吗？</b><br>
+A：<b>不能</b>。基础 ROM 任何字节变化都会使旧补丁作废（基础 MD5 不再匹配）。请以发布页最新公布的补丁文件与 MD5 为准——拖动 exe 会自动校验，命令行用户务必核对第二节的基础 MD5，否则可能静默产出坏 ROM。</p>
+
+<h2><span class="step">八</span>维护者附录：ROM 更新后重走整条构建链</h2>
+<div class="tip">本节面向插件/汉化维护者。每次修正文本（a/0/0/2、a/0/0/3）或重做字库（a/0/2/3）并重新打包后，按此清单重新出补丁。</div>
+
+<p><b>1. 触发条件与兼容性速查</b></p>
+<table>
+  <tr><th>改动</th><th>插件/构建链是否兼容</th><th>需要做什么</th></tr>
+  <tr><td>a/0/0/2、a/0/0/3 文本修订（尺寸变化 → NitroFS 重排）</td><td>✅ 自动适配</td><td>重跑构建链，注入偏移由 <code>_res_offset_inject.py</code> 自动重算</td></tr>
+  <tr><td>用 Tinke/ndstool 重新打包</td><td>✅ 自动适配</td><td>文件 ID / TWL digest 由 <code>_fix_ov237_fileid.py</code> 自动重建</td></tr>
+  <tr><td>重做 a/0/2/3 字库（新增码表字符）</td><td>⚠️ 两个硬耦合点</td><td>见下方"人工检查点"</td></tr>
+  <tr><td>更新 arm9 / overlay 代码</td><td>❌ 钩点全失效</td><td>等同新基线，钩点分析全部重做</td></tr>
+</table>
+
+<p><b>2. 人工检查点（构建前）</b></p>
+<ul>
+  <li><b>NFTR 容器偏移</b>：kmod 直接读 a/0/2/3 容器内的 NFTR 字形，<b>容器内偏移 <code>0x74</code> 是硬编码</b>。重做字库后先核对 NFTR magic 在容器内的起始偏移是否仍为 0x74；变了就同步修改 kmod 常量并重编。</li>
+  <li><b>码表索引</b>：pinyin_db.bin 的候选字按码表索引引用。新增字符请<b>尾部追加</b>（既有索引不变）；若调整了既有字符顺序，拼音候选会选错字。字库更新后做一次键盘候选回归（打几个常用拼音核对候选）。</li>
+  <li><b>白版同步</b>：<code>config.mk</code> 切 <code>WHITE</code>/<code>rom_white</code>，三组件必须 <code>make -B</code> 全量重建；完成后切回 <code>BLACK</code>/<code>rom</code>。</li>
+</ul>
+
+<p><b>3. 构建链（顺序铁律）</b></p>
+<pre><code>① 新汉化版 ROM → 覆盖 rom/base_rom.nds（白版 rom_white/base_rom.nds）
+② make（msys2 bash -lc；env DEVKITPRO/DEVKITARM/TMP 绝对路径）
+   ⚠️ rtdbg.h 有改动时必须 make -B 全量重建
+③ cp keyboard.kmod → rom/nitrofs/keyboard/（md5 核对）
+④ patch.py（PYTHONUTF8=1 + 托管 Py3.13 + PYTHONPATH=nitro_pylibs）
+⑤ _patch_ov194.py
+⑥ pack_twl.sh（一段；内建第 3.5 步 fileid fix 不可移除/不可跳过）
+⑦ _res_offset_inject.py patch（自动重算 kmod/keys/pinyin 注入偏移）
+⑧ pack_twl.sh（二段）
+⑨ verify（Git Bash 跑托管 python）：fileid fix / digest / HMAC 全 PASS、
+   注入 verify OK、kmod 与 ov237 in-ROM byte-exact
+⑩ cp 测试目录 —— 交付以测试目录文件的 md5 为准</code></pre>
+<div class="warn">红线：不可跑根目录 <code>make clean</code>（会误删取证 dump）；bash -lc 后每条 python/cp 必须显式 cd。</div>
+
+<p><b>4. 发布 SOP（构建通过后）</b></p>
+<pre><code>① 重新生成补丁：
+   <span class="cmd">ndstool --xdelta --verify rom/base_rom.nds rom/patched_twl.nds patches/…_BLACK.xdelta</span>
+   <span class="cmd">ndstool --xdelta --verify rom_white/base_rom.nds rom_white/patched_twl.nds patches/…_WHITE.xdelta</span>
+   （--verify 必须 PASS，另用 xdelta3 CLI 回环核对输出 MD5）
+② build_drop_patcher.sh 更新 4 个 MD5（黑/白 base + 黑/白成品）→ 重出两个拖动 exe
+③ 同步更新本教程（第二节/第六节）与 使用说明.txt 里的全部 MD5
+④ 3DS 测试前删除 _nds/nds-bootstrap/patchOffsetCache</code></pre>
+
+<p><b>5. 版本标识建议</b></p>
+<div class="warn">补丁文件名带上基础版标识（如 <code>_base2.1.8a_</code> 或基础 MD5 前 8 位）。ROM 每更新一轮，旧补丁必须下架或明确标注作废——否则用户拖错补丁时，xdelta3 命令行<b>可能不报错而静默产出坏 ROM</b>，这是线上反馈的高发事故源。</div>
+
+<div class="foot">
+<b>附：本补丁包含的内容</b><br>
+· 全套中文键盘：拼音输入 + 候选词选择（支持翻页）<br>
+· 十字键 + A/B 完整键盘导航（1.8 秒步进、↑ 出界跳入候选区、↓ 返回键盘）<br>
+· 触摸 / 按键光标双向同步<br>
+· 触摸退出防误触（抬笔确认）
+</div>
+
+</div>
+</body>
+</html>

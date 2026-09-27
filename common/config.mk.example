@@ -1,0 +1,15 @@
+OVERLAY_ID := 237
+OVERLAY_ADDR := 0x02213C00
+OVERLAY_NAME := overlay_0237
+OVERLAY_LDR_ADDR := 0x02004450
+INJECT_OVERLAY_ID := 10
+IS_NITROSDK_THUMB := 0
+NITROSDK_VER := 0x0503
+ENABLE_KEYBOARD_PINYIN_EX := 1
+
+# 遊戲版本變體（BLACK=黑 v7.7.3 定案 / WHITE=白移植）
+# 白版偵察定案：arm9 代碼 Δ=+0x18、ov 區 Δ=+0x20、FS 上限字面量
+# 0x02078DB4→0x02078DCC；注入點 0x02004450 白版仍為 secure area 垃圾區（不變）
+GAME_VARIANT := BLACK
+# ROM 工作目錄（base_rom.nds / arm9.bin / overlay_table.bin / overlay/ / nitrofs/）
+ROM_DIR := rom

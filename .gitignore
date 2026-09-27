@@ -1,0 +1,26 @@
+# 工作目录（不发布）
+rom/
+rom_white/
+backup/
+patches/
+build/
+__pycache__/
+.vscode/
+
+# 构建产物
+*.nds
+*.sav
+*.elf
+*.kmod
+keyboard.kmod
+overlay_ldr.bin
+
+# 本地变体配置（config.mk.example 为模板）
+common/config.mk
+
+# 取证 / 临时
+_*.bin
+_*.out
+*.ml1
+*.ml2
+*.dsm
