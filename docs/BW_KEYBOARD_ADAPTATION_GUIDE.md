@@ -72,7 +72,7 @@
 
 | 工具 | 用途 |
 |---|---|
-| **no$gba Debugger** | 斷點、內存搜索、暫存器查看（你已在用）|
+| **no$gba Debugger** | 斷點、內存搜索、暫存器查看 |
 | **Tinke** | NARC 解包、字庫視覺化查看（C# 寫的 NDS ROM 工具）|
 | **CrystalTile2 (CT2)** | ROM 編輯、字庫查看、vb2bpp 格式預覽 |
 | **DeSmuME** | 另一個調試器，內存搜索更方便（但 DSi 模式支援弱）|
